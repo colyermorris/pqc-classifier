@@ -37,3 +37,8 @@ This document captures the current limitations of datasets used in the pqc-class
 - Capture initial benchmarks and document provenance.  
 - Begin work to integrate dynamic performance logs.  
 - Track new NIST releases and update quarterly.  
+
+
+## Notes
+- Current dataset consists of a toy example only; not representative of real-world measurements.  
+- Sizes/timings are illustrative placeholders and should not be used for benchmarking or modeling.

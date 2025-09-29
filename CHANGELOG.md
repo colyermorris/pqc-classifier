@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial repository scaffolding (WP-00)
 - .gitignore with Python, macOS, and project rules
 - GIT_HELP.md (ignored)
+- Added data governance guardrails, JSON Schema for records, validator stubs, and toy example (WP-01).
 
 ### Changed
 - None yet

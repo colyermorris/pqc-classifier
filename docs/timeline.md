@@ -1,4 +1,8 @@
 # Timeline
+- 2025-09-28 — WP-01 completed: schema + governance + toy example validated.
+
+
+
 
 ## Milestones
 - WP-00 Repo bootstrap and governance: Complete
@@ -10,3 +14,4 @@
 
 ## Burndown Notes
 Track task completion weekly; update upon each WP close.
+

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/records.schema.json",
+  "title": "PQC Record",
+  "type": "object",
+  "required": [
+    "source",
+    "family",
+    "algorithm",
+    "nist_level",
+    "impl_variant",
+    "platform",
+    "sizes",
+    "citation_key",
+    "license_tag",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "source": { "type": "string", "minLength": 1 },
+    "family": {
+      "type": "string",
+      "enum": ["lattice", "code", "hash", "isogeny", "multivariate"]
+    },
+    "algorithm": { "type": "string", "minLength": 1 },
+    "nist_level": { "type": "integer", "enum": [1, 2, 3, 4, 5] },
+    "impl_variant": { "type": "string", "minLength": 1 },
+    "platform": { "type": "string", "minLength": 1 },
+    "sizes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "public_key_bytes": { "type": "integer", "minimum": 0 },
+        "secret_key_bytes": { "type": "integer", "minimum": 0 },
+        "ciphertext_bytes": { "type": "integer", "minimum": 0 },
+        "signature_bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "timings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "keygen_us": { "type": "number", "minimum": 0 },
+        "encaps_us": { "type": "number", "minimum": 0 },
+        "decaps_us": { "type": "number", "minimum": 0 },
+        "sign_us": { "type": "number", "minimum": 0 },
+        "verify_us": { "type": "number", "minimum": 0 }
+      }
+    },
+    "mem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "peak_bytes": { "type": "integer", "minimum": 0 },
+        "stack_bytes": { "type": "integer", "minimum": 0 },
+        "heap_bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "ops_sec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "keygen": { "type": "number", "minimum": 0 },
+        "encaps": { "type": "number", "minimum": 0 },
+        "decaps": { "type": "number", "minimum": 0 },
+        "sign": { "type": "number", "minimum": 0 },
+        "verify": { "type": "number", "minimum": 0 }
+      }
+    },
+    "latency_ms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key_exchange_roundtrip": { "type": "number", "minimum": 0 }
+      }
+    },
+    "citation_key": { "type": "string", "minLength": 1 },
+    "license_tag": { "type": "string", "minLength": 1 },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ingested_at", "ingested_by", "raw_locator"],
+      "properties": {
+        "ingested_at": { "type": "string", "format": "date-time" },
+        "ingested_by": { "type": "string", "minLength": 1 },
+        "raw_locator": { "type": "string", "minLength": 1 },
+        "transform_notes": { "type": "string" },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

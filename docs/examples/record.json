@@ -1,0 +1,34 @@
+{
+  "source": "example-seed",
+  "family": "lattice",
+  "algorithm": "Kyber",
+  "nist_level": 1,
+  "impl_variant": "Kyber512",
+  "platform": "x86_64 clang-16 -O3",
+  "sizes": {
+    "public_key_bytes": 800,
+    "secret_key_bytes": 1632,
+    "ciphertext_bytes": 768
+  },
+  "timings": {
+    "keygen_us": 50.2,
+    "encaps_us": 40.9,
+    "decaps_us": 38.7
+  },
+  "mem": { "peak_bytes": 1048576 },
+  "ops_sec": {
+    "keygen": 19000.0,
+    "encaps": 21000.0,
+    "decaps": 22000.0
+  },
+  "latency_ms": { "key_exchange_roundtrip": 1.2 },
+  "citation_key": "example-bench-000",
+  "license_tag": "CC-BY-4.0",
+  "provenance": {
+    "ingested_at": "2025-09-28T20:00:00Z",
+    "ingested_by": "wp01-setup",
+    "raw_locator": "file://examples/bench.csv",
+    "transform_notes": "Seed example for schema validation.",
+    "checksum_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+}

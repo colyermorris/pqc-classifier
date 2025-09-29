@@ -1,14 +1,28 @@
-# Data Governance
+# docs/data-governance.md
+# Data Governance — PQC Classifier
 
-## Sources and Provenance
-- PQClean, OQS, literature tables, industry contributions (anonymized).
+## Purpose
+Rules for ingest, storage, provenance, and licensing to ensure lawful reuse and reproducibility.
 
-## Access and Controls
-- Secrets in config/secrets.env (not committed).
-- Industry data stored under data/raw/industry with restricted access.
+## Intake Checklist
+- [ ] Identify **source** and **license_tag** (link to license text if possible).
+- [ ] Confirm data is **redistributable**; if not, mark as `Proprietary` and store derived features only.
+- [ ] Record **citation_key** and **raw_locator** (URL/path).
+- [ ] Capture provenance: `ingested_at` (ISO 8601), `ingested_by`, optional `checksum_sha256`.
+- [ ] Validate against `data/schemas/records.schema.json`.
+- [ ] Document **platform** for measurements (CPU, OS, compiler flags).
+- [ ] Note **transforms** in `transform_notes`; include units.
+- [ ] Add minimal **reproduction steps**.
 
-## Retention and Refresh
-- Quarterly dataset refresh; track changes in CHANGELOG.md and docs/dataset-limitations.md.
+## Retention Policy
+- Keep public raw and derived artifacts for 3 years or until superseded.
+- For proprietary data: store minimal features; keep link-only `raw_locator`; do not redistribute raw.
+- Maintain checksums for bundled CSV/JSON where feasible.
 
-## Quality
-- Schemas in data/schemas; validators in src/validate.
+## Anonymization & Minimization
+- No personal data. Strip hostnames/secrets from locators.
+- Keep only high-level `platform` needed for reproducibility.
+
+## Change Control
+- Schema changes require semver bump + CHANGELOG entry.
+- Record licensing/source risks in `docs/risk-register.md`.
