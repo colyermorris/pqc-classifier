@@ -1,0 +1,24 @@
+project:
+  name: pqc-classifier
+  version: 0.1.0
+  owner: Charles Morris
+  license: MIT
+  description: Automated classification of PQC algorithms and NIST level from minimal features.
+
+environments:
+  default: local
+  local:
+    data_root: data/
+    logs_root: logs/
+  dev:
+    data_root: data/
+    logs_root: logs/
+  prod:
+    data_root: data/
+    logs_root: logs/
+
+tags:
+  - pqc
+  - classification
+  - compliance
+  - migration

@@ -1,0 +1,58 @@
+# Canonical project paths for pqc-classifier
+# All paths are relative to the project root unless noted.
+
+roots:
+  data: data/
+  src: src/
+  docs: docs/
+  dashboard: dashboard/
+  config: config/
+  scripts: scripts/
+  infra: infra/
+  ci: ci/
+
+data:
+  raw: data/raw/
+  interim: data/interim/
+  processed: data/processed/
+  schemas: data/schemas/
+
+docs:
+  proposal: docs/proposal.md
+  charter: docs/charter.md
+  timeline: docs/timeline.md
+  risk_register: docs/risk-register.md
+  ethics: docs/ethics.md
+  data_governance: docs/data-governance.md
+  dataset_limitations: docs/dataset-limitations.md
+  api_spec: docs/api-spec.md
+  model_cards:
+    family: docs/model-cards/family_classifier.md
+    level: docs/model-cards/level_classifier.md
+
+src:
+  ingest: src/ingest/
+  validate: src/validate/
+  features: src/features/
+  models: src/models/
+  eval: src/eval/
+  interpret: src/interpret/
+  api: src/api/
+  utils: src/utils/
+
+dashboard:
+  backend: dashboard/backend/
+  frontend: dashboard/frontend/
+
+scripts:
+  make_dataset: scripts/make_dataset.sh
+  run_cv: scripts/run_cv.sh
+  generate_reports: scripts/generate_reports.sh
+
+infra:
+  dockerfile: infra/Dockerfile
+  compose: infra/docker-compose.yml
+  k8s: infra/k8s/
+
+ci:
+  workflows: ci/github/workflows/
