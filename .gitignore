@@ -1,0 +1,42 @@
+# --- Project local helper ---
+GIT_HELP.md
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+.env
+.venv
+env/
+venv/
+ENV/
+.ipynb_checkpoints
+
+# --- Data ---
+data/processed/*.parquet
+!data/processed/master_catalog.parquet
+!data/processed/features_static.parquet
+!data/processed/features_dynamic.parquet
+!data/processed/features_merged.parquet
+
+# --- Secrets ---
+config/secrets.env
+*.key
+*.pem
+
+# --- OS / Editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log
+logs/
