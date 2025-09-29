@@ -1,3 +1,84 @@
+=== PQC-CLASSIFIER :: WP KICKOFF GUIDE ===
+
+Paste the following block to start each Work Packet (WP). Replace <> fields.
+
+[WP-KICKOFF]
+WP_ID: <WP-XX>
+GOAL: <one-sentence objective>
+INPUTS: <links/paths/specs to use>
+PATHS_TOUCHED: <folders to modify>
+FILES_TO_CREATE: <new files>
+FILES_TO_EDIT: <existing files>
+OUTPUTS: <artifacts to exist by end>
+ACCEPTANCE_CHECKS:
+- <check 1>
+- <check 2>
+- <check 3>
+
+[EXECUTION_RULES]
+1) Step-by-step. Give only the next concrete action with exact shell commands or file patches.
+2) Shell commands must have no comments or line continuations. One action = one code block.
+3) Code edits are emitted as block-wrapped patches per file:
+   Start tag:   #block <BLOCK-ID>
+   End tag:     #/end of block <BLOCK-ID>
+   Use a unique BLOCK-ID per file change. Format: WP<NN>-<AREA>-<###> (e.g., WP01-FEAT-001).
+   Language comment markers:
+     - Python/YAML/Shell/Dockerfile: #
+     - JS/TS: //
+     - CSS/HTML: /* ... */
+   For formats that disallow comments (JSON, .env): show the full file contents between the tags in chat only; do not embed tags in the file.
+4) After each block, provide a 2–3 line "Apply & Verify" checklist and any one-liner tests.
+5) Keep diffs minimal. If a file needs multiple changes, use multiple blocks with new BLOCK-IDs.
+6) If ambiguity exists, choose the safest default and proceed.
+7) At WP close, output the exact doc updates and git commands to commit, tag, and push.
+8) ALWAYS output a “NOTES” section at the end with bullet points to paste into docs/running-notes.md.
+
+[CLOSEOUT CHECKLIST]
+1) Update docs as applicable:
+   - CHANGELOG.md (add under [Unreleased], note WP_ID)
+   - docs/timeline.md (mark WP complete)
+   - docs/risk-register.md (add new risks/mitigations)
+   - docs/data-governance.md (if sources or controls changed)
+   - docs/dataset-limitations.md (if data shape or plan changed)
+   - docs/model-cards/* (if model behavior changed)
+   - docs/running-notes.md (append NOTES from chat)
+2) Run acceptance checks listed above.
+3) Git and tag:
+   git add -A
+   git commit -m "<WP-XX>: <summary>"
+   git tag -a <WP-XX> -m "Close <WP-XX>"
+   git push
+   git push --tags
+
+[BLOCK-ID RULES]
+- Stable, human-readable, unique per file change.
+- Recommended areas: FEAT, INGEST, VALIDATE, MODELS, EVAL, API, DASH, DOCS, INFRA, CI.
+- Example IDs for a single WP:
+  WP02-INGEST-001
+  WP02-FEAT-002
+  WP02-MODELS-003
+
+[EXAMPLE PATCH USAGE]
+#block WP01-FEAT-001
+def build_static_features(df):
+    pass
+#/end of block WP01-FEAT-001
+
+[APPLY & VERIFY TEMPLATE]
+- Run: <command>
+- Expect: <output/created files>
+- If fail: <rollback or next step>
+
+[NOTES TEMPLATE — COPY TO docs/running-notes.md]
+## <WP-XX>
+- Summary: <1–2 line summary>
+- Block IDs: <list>
+- Decisions: <key design choices>
+- Issues: <any encountered + fixes>
+- Next Prep: <what to stage for next WP>
+
+
+
 pqc-classifier/
 ├─ README.md
 ├─ CHANGELOG.md
@@ -120,7 +201,21 @@ ACCEPTANCE CHECK
 All paths in config/paths.yaml resolve locally.
 docs/dataset-limitations.md lists: sample size, benchmark bias, missing dynamic features, environment diversity, and a scheduled refresh plan.
 NOTES
-(Your notes here)
+## WP-00
+- Summary: Bootstrapped repository with scaffolding, governance docs, config, and dataset limitations. Ensured all acceptance checks are satisfied.
+- Block IDs: (none — this WP was skeleton creation, not code patches)
+- Decisions:
+  - License placeholder left as MIT in project.yaml (can change later).
+  - .gitignore extended to include Python, macOS, VS Code, and helper doc rules.
+  - Added CHANGELOG, README, and kickoff guide (HereWeGoAgain.txt) for workflow continuity.
+  - Disabled macOS .DS_Store / ._ file generation on external SSD for cleanliness.
+- Issues:
+  - None encountered; directory skeleton and file creation proceeded without conflict.
+- Next Prep:
+  - WP-01 will handle **data ingestion** and schemas.
+  - Verify industry data placeholder directories remain restricted.
+  - Confirm partner datasets governance updates before adding real data.
+
 ================================================================
 [WP-01] DATA ACCESS & PROVENANCE GUARDRAILS
 GOAL

@@ -28,6 +28,7 @@ data/processed/*.parquet
 
 # --- Secrets ---
 config/secrets.env
+hereWeGoAgain.txt
 *.key
 *.pem
 
