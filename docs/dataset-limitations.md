@@ -86,3 +86,9 @@ The table below summarizes current alias breadth (counts approximate; wildcard f
 - Add automated alias discovery: harvest tokens from headers/README of liboqs/PQClean at pin commits; unit-test that all tokens map to a canonical label.
 - Surface an “alias resolution report” in the ETL logs: unmapped tokens flagged with source file and first-seen line number.
 
+# Dataset Limitations (WP-03 scope)
+
+- **Source coverage**: Only algorithms present in the dropped PQClean subtree are ingested. If a family/param-set is absent upstream, it will be absent here.
+- **Heuristic param-set naming**: We infer `paramset` from the `<alg>` directory (e.g., `kyber1024`). Ambiguous layouts may require alias additions.
+- **Macro dependence**: Size fields come from `api.h` macros (`CRYPTO_PUBLICKEYBYTES`, etc.). Non-standard headers or computed macros will be skipped.
+- **Canonical mapping incompleteness**: If an alias isn’t listed, canonical fields (`paramset_canonical`, `security_level`) can be missing until the map is updated.

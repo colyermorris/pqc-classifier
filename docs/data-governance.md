@@ -43,3 +43,9 @@ Rules for ingest, storage, provenance, and licensing to ensure lawful reuse and 
 **Monitoring (planned WP-03).**
 - CI job fails on unmapped tokens discovered in sample ETL runs.
 - Daily ETL emits an “alias-resolution report” listing new/unknown tokens with source provenance.
+
+
+- **Source of record**: PQClean drop under `data/raw/pqclean/`.
+- **Transform**: Deterministic parse of `api.h` defines; canonicalization via versioned YAML.
+- **Reproducibility**: `scripts/make_dataset.sh pqclean` under an activated venv.
+- **Provenance fields**: Each record includes `paths.api_h` and `meta.impl_dir`.

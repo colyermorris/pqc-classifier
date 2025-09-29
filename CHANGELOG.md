@@ -29,3 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Risks/Mitigations
 - Alias drift across upstream repos — logged in `docs/risk-register.md` with CI tests planned.
+
+## WP-03 — Ingest PQClean (api.h → records)
+- Added `src/ingest/pqclean_ingest.py` CLI to scan PQClean trees and emit JSONL records.
+- Added `src/validate/canonical_names.yaml` and canonicalization logic (family, param-set, NIST level, FIPS tags).
+- Added validator `src/validate/validate_pqclean_records.py` for schema and consistency checks.
+- Added `scripts/make_dataset.sh` with `pqclean` target wrapper.
+- Output artifact: `data/interim/staging/pqclean_records.jsonl`.

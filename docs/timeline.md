@@ -2,7 +2,11 @@
 - 2025-09-28 — WP-01 completed: schema + governance + toy example validated.
 - 2025-09-28 — **WP-02 COMPLETE**: Canonical naming + alias map shipped. Docs updated. Next: add CI alias coverage tests (WP-03).
 
-
+## WP-03 (Complete)
+- Implemented PQClean ingester and JSONL emitter.
+- Introduced canonical map and enrichment pass (family, security level, FIPS).
+- Wrote validator for quick schema checks.
+- Produced first staging artifact from PQClean drops.
 
 
 ## Milestones
@@ -15,4 +19,3 @@
 
 ## Burndown Notes
 Track task completion weekly; update upon each WP close.
-

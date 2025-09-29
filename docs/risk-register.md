@@ -1,11 +1,11 @@
 # Risk Register
 
-| ID | Risk | Likelihood | Impact | Owner | Mitigation | Status |
-|----|------|------------|--------|-------|------------|--------|
-| R1 | Dataset too small or biased | Medium | High | Data Lead | Expand sources; quarterly refresh | Open |
-| R2 | Misclassification in new environments | Medium | Medium | Model Lead | Robustness tests; calibration | Open |
-| R3 | Secrets committed by mistake | Low | High | Dev Lead | .gitignore; pre-push checks | Open |
-| R4 | Dependency or build breakage | Medium | Medium | Eng | Pin versions; CI checks | Open |
+| ID | Risk | Likelihood | Impact | Mitigation | Status |
+|----|------|------------|--------|------------|--------|
+| R-03-01 | PQClean folder naming doesn't match aliases → missed canonicalization | M | M | Expand `aliases` in `src/validate/canonical_names.yaml`; re-run ingest | Open |
+| R-03-02 | `api.h` macro variance (non-integer defines) | L | M | Parser ignores non-int; add scheme-specific patches if needed | Monitoring |
+| R-03-03 | Partial source drop → missing algorithms | M | M | Acceptance check compares record count vs expected sets; verify source completeness | Open |
+| R-03-04 | Downstream schema drift | L | M | Keep validator in CI; fail on schema violations | Open |
 
 
 
@@ -33,3 +33,6 @@
   - Unit tests for known ambiguous cases (planned WP-03).
 - **Owner:** Data Eng
 - **Status:** Open
+
+
+
