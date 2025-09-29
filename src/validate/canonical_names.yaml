@@ -1,0 +1,276 @@
+# Canonical naming & alias map for PQC-Classifier
+# Purpose:
+# - Normalize algorithm, family, and security-level names across sources.
+# - Drive clean joins and consistent labels in ETL and model features.
+# Conventions:
+# - Canonical "algorithm" names use current NIST/FIPS nomenclature where applicable.
+# - Each entry lists: type (KEM|SIGNATURE), family (lattice|code|hash), fips (if standardized),
+#   a comprehensive alias list, and parameter-set mappings to NIST security levels.
+# - Normalization rules appear under `normalization.rules` and should be applied before matching.
+
+normalization:
+  rules:
+    # Apply in order
+    - strip_whitespace: true
+    - lowercase: true
+    - replace:
+        # Normalize separators
+        "[\\s_/]+": "-"
+        "\\+": "plus"
+        "\\.": "-"
+    - simplify:
+        # Common textual simplifications
+        "crystals-": ""         # crystals-kyber -> kyber
+        "crystalsdilithium": "dilithium"
+        "ntruprime": "ntru-prime"
+        "spx": "sphincsplus"    # some repos use spx for SPHINCS+
+        "sphincs\\+": "sphincsplus"
+        "ml-": ""               # ml-kem -> kem (handled by aliases below)
+        "fips-20[3-6]-": ""     # strip FIPS prefix tokens in loose data
+    - collapse_duplicates: true # collapse repeated dashes
+    - trim_dashes: true
+
+security_levels:
+  # Canonical levels: 1, 3, 5
+  - level: 1
+    aliases: ["1","l1","lvl1","level1","nist-1","cat1","category1","sec1"]
+  - level: 3
+    aliases: ["3","l3","lvl3","level3","nist-3","cat3","category3","sec3"]
+  - level: 5
+    aliases: ["5","l5","lvl5","level5","nist-5","cat5","category5","sec5"]
+
+families:
+  - canonical: lattice
+    aliases: ["lattice","lattice-based","module-lattice","ring-lwe","lwe","lwe-based","module-lwe","r-lwe"]
+  - canonical: code
+    aliases: ["code","code-based","error-correcting-code","ecc-code-based","goppa","qc-mdpc","qc-ldpc"]
+  - canonical: hash
+    aliases: ["hash","hash-based","stateless-hash","merkle-hash","few-time-signature-family"]
+
+algorithms:
+
+  # === LATTICE (KEM) ===
+  - canonical: ML-KEM
+    type: KEM
+    family: lattice
+    fips: "FIPS 203"
+    aliases:
+      # Generic
+      - "ml-kem" - "mlkem" - "kem-kyber" - "kyber" - "crystals-kyber"
+      # Parametric & library tokens
+      - "ml-kem-512" - "ml-kem-768" - "ml-kem-1024"
+      - "kyber512" - "kyber-512" - "kyber768" - "kyber-768" - "kyber1024" - "kyber-1024"
+      - "oqs_kem_alg_kyber_512" - "oqs_kem_alg_kyber_768" - "oqs_kem_alg_kyber_1024"
+      - "pqclean-kyber512" - "pqclean-kyber768" - "pqclean-kyber1024"
+      - "liboqs-kyber" - "openssl-kyber" - "boringssl-kyber"
+      - "nist-pqc-kem-kyber"
+    param_sets:
+      - name: ML-KEM-512
+        level: 1
+        aliases: ["kyber512","kyber-512","ml-kem-512","oqs_kem_alg_kyber_512","pqclean-kyber512"]
+      - name: ML-KEM-768
+        level: 3
+        aliases: ["kyber768","kyber-768","ml-kem-768","oqs_kem_alg_kyber_768","pqclean-kyber768"]
+      - name: ML-KEM-1024
+        level: 5
+        aliases: ["kyber1024","kyber-1024","ml-kem-1024","oqs_kem_alg_kyber_1024","pqclean-kyber1024"]
+
+  - canonical: FrodoKEM
+    type: KEM
+    family: lattice
+    aliases:
+      - "frodo" - "frodokem" - "frodo-kem" - "frodokem-aes" - "frodokem-shake"
+      - "frodokem-640-aes" - "frodokem-640-shake" - "frodokem-976-aes" - "frodokem-976-shake"
+      - "frodokem-1344-aes" - "frodokem-1344-shake"
+    param_sets:
+      - name: FrodoKEM-640
+        level: 1
+        aliases: ["frodokem-640-aes","frodokem-640-shake"]
+      - name: FrodoKEM-976
+        level: 3
+        aliases: ["frodokem-976-aes","frodokem-976-shake"]
+      - name: FrodoKEM-1344
+        level: 5
+        aliases: ["frodokem-1344-aes","frodokem-1344-shake"]
+
+  - canonical: SABER
+    type: KEM
+    family: lattice
+    aliases:
+      - "saber" - "light-saber" - "lightsaber" - "firesaber" - "fire-saber"
+    param_sets:
+      - name: LightSaber
+        level: 1
+        aliases: ["light-saber","lightsaber"]
+      - name: Saber
+        level: 3
+        aliases: ["saber"]
+      - name: FireSaber
+        level: 5
+        aliases: ["firesaber","fire-saber"]
+
+  - canonical: NTRU
+    type: KEM
+    family: lattice
+    aliases:
+      - "ntru" - "ntru-hps" - "ntru-hrss" - "ntru-hps-2048-509" - "ntru-hps-2048-677" - "ntru-hrss-701"
+
+  - canonical: NTRU Prime
+    type: KEM
+    family: lattice
+    aliases:
+      - "ntru-prime" - "sntrup" - "sntrup761" - "sntrup-761" - "sntrup857" - "sntrup-857"
+
+  - canonical: NewHope
+    type: KEM
+    family: lattice
+    aliases:
+      - "newhope" - "new-hope" - "newhope-512-cca" - "newhope-1024-cca"
+
+  # === LATTICE (SIGNATURE) ===
+  - canonical: ML-DSA
+    type: SIGNATURE
+    family: lattice
+    fips: "FIPS 204"
+    aliases:
+      - "ml-dsa" - "mldsa" - "dilithium" - "crystals-dilithium" - "dilithium2" - "dilithium3" - "dilithium5"
+      - "ml-dsa-44" - "ml-dsa-65" - "ml-dsa-87"
+      - "oqs_sig_alg_dilithium_2" - "oqs_sig_alg_dilithium_3" - "oqs_sig_alg_dilithium_5"
+      - "pqclean-dilithium2" - "pqclean-dilithium3" - "pqclean-dilithium5"
+    param_sets:
+      - name: ML-DSA-44
+        level: 1
+        aliases: ["dilithium2","ml-dsa-44","oqs_sig_alg_dilithium_2","pqclean-dilithium2"]
+      - name: ML-DSA-65
+        level: 3
+        aliases: ["dilithium3","ml-dsa-65","oqs_sig_alg_dilithium_3","pqclean-dilithium3"]
+      - name: ML-DSA-87
+        level: 5
+        aliases: ["dilithium5","ml-dsa-87","oqs_sig_alg_dilithium_5","pqclean-dilithium5"]
+
+  - canonical: Falcon
+    type: SIGNATURE
+    family: lattice
+    # (Standardization in progress; some sources reference draft FIPS)
+    aliases:
+      - "falcon" - "falcon-512" - "falcon512" - "falcon-1024" - "falcon1024"
+      - "oqs_sig_alg_falcon_512" - "oqs_sig_alg_falcon_1024" - "pqclean-falcon512" - "pqclean-falcon1024"
+    param_sets:
+      - name: Falcon-512
+        level: 1
+        aliases: ["falcon-512","falcon512","oqs_sig_alg_falcon_512","pqclean-falcon512"]
+      - name: Falcon-1024
+        level: 5
+        aliases: ["falcon-1024","falcon1024","oqs_sig_alg_falcon_1024","pqclean-falcon1024"]
+
+  # === HASH (SIGNATURE) ===
+  - canonical: SLH-DSA
+    type: SIGNATURE
+    family: hash
+    fips: "FIPS 205"
+    aliases:
+      - "slh-dsa" - "slhdsa" - "sphincsplus" - "sphincs-plus" - "sphincs+"
+      - "sphincs-sha2" - "sphincs-shake" - "sphincs-haraka"
+      - "sphincs+-sha256" - "sphincs+-shake256" - "sphincs+-haraka"
+      - "oqs_sig_alg_sphincs-sha2" - "oqs_sig_alg_sphincs-shake" - "oqs_sig_alg_sphincs-haraka"
+      - "pqclean-sphincs-sha256" - "pqclean-sphincs-shake256" - "pqclean-sphincs-haraka"
+    param_sets:
+      - name: SLH-DSA-SHA2-128f
+        level: 1
+        aliases: ["sphincs+-sha256-128f","sphincs-sha2-128f","sphincs-sha256-128f"]
+      - name: SLH-DSA-SHA2-128s
+        level: 1
+        aliases: ["sphincs+-sha256-128s","sphincs-sha2-128s","sphincs-sha256-128s"]
+      - name: SLH-DSA-SHA2-192f
+        level: 3
+        aliases: ["sphincs+-sha256-192f","sphincs-sha2-192f","sphincs-sha256-192f"]
+      - name: SLH-DSA-SHA2-192s
+        level: 3
+        aliases: ["sphincs+-sha256-192s","sphincs-sha2-192s","sphincs-sha256-192s"]
+      - name: SLH-DSA-SHA2-256f
+        level: 5
+        aliases: ["sphincs+-sha256-256f","sphincs-sha2-256f","sphincs-sha256-256f"]
+      - name: SLH-DSA-SHA2-256s
+        level: 5
+        aliases: ["sphincs+-sha256-256s","sphincs-sha2-256s","sphincs-sha256-256s"]
+      # (shake/haraka variants can be normalized similarly)
+
+  # === CODE (KEM) ===
+  - canonical: Classic McEliece
+    type: KEM
+    family: code
+    aliases:
+      - "classic-mceliece" - "mceliece" - "cmce" - "classicmceliece"
+      - "mceliece-348864" - "mceliece348864"
+      - "mceliece-348864f" - "mceliece348864f"
+      - "mceliece-460896" - "mceliece460896"
+      - "mceliece-460896f" - "mceliece460896f"
+      - "mceliece-6688128" - "mceliece6688128"
+      - "mceliece-6688128f" - "mceliece6688128f"
+      - "mceliece-6960119" - "mceliece6960119"
+      - "mceliece-6960119f" - "mceliece6960119f"
+      - "mceliece-8192128" - "mceliece8192128"
+      - "mceliece-8192128f" - "mceliece8192128f"
+      - "oqs_kem_alg_classic_mceliece_*" # wildcard; normalize programmatically
+    param_sets:
+      - name: mceliece-348864
+        level: 1
+      - name: mceliece-348864f
+        level: 1
+      - name: mceliece-460896
+        level: 3
+      - name: mceliece-460896f
+        level: 3
+      - name: mceliece-6688128
+        level: 5
+      - name: mceliece-6688128f
+        level: 5
+      - name: mceliece-6960119
+        level: 5
+      - name: mceliece-6960119f
+        level: 5
+      - name: mceliece-8192128
+        level: 5
+      - name: mceliece-8192128f
+        level: 5
+
+  - canonical: BIKE
+    type: KEM
+    family: code
+    aliases:
+      - "bike" - "bike-l1" - "bike-l3" - "bike-l5" - "bike1" - "bike2" - "bike3"
+      - "qc-mdpc" - "qc-mdpc-kem"
+    param_sets:
+      - name: BIKE-L1
+        level: 1
+        aliases: ["bike-l1","bike1"]
+      - name: BIKE-L3
+        level: 3
+        aliases: ["bike-l3","bike2"]
+      - name: BIKE-L5
+        level: 5
+        aliases: ["bike-l5","bike3"]
+
+  - canonical: HQC
+    type: KEM
+    family: code
+    aliases:
+      - "hqc" - "hqc-128" - "hqc-192" - "hqc-256" - "hqc-rmrs" - "hqc-kem"
+      - "qcmdpc" - "qc-ldpc"
+    param_sets:
+      - name: HQC-128
+        level: 1
+      - name: HQC-192
+        level: 3
+      - name: HQC-256
+        level: 5
+
+# Deprecated / broken (kept for aliasing only)
+deprecated:
+  - canonical: SIKE
+    reason: "Broken (2019/2022). Keep as alias sink to avoid mislabeling."
+    aliases: ["sike","supersingular-isogeny","p751","p503","p434","p610"]
+
+  - canonical: Rainbow
+    reason: "Broken (2022). Keep for historical data cleanliness."
+    aliases: ["rainbow","uov","oil-and-vinegar","uov-signature"]

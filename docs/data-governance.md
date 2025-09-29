@@ -26,3 +26,20 @@ Rules for ingest, storage, provenance, and licensing to ensure lawful reuse and 
 ## Change Control
 - Schema changes require semver bump + CHANGELOG entry.
 - Record licensing/source risks in `docs/risk-register.md`.
+
+## Canonicalization Controls (WP-02)
+
+**Control Objective.** Ensure consistent labels for algorithms, families, and security levels across all sources to prevent mis-joins and feature fragmentation.
+
+**Control Design.**
+- **Authoritative Map:** `src/validate/canonical_names.yaml` (versioned in Git).
+- **Normalization Pipeline:** Lowercasing, separator unification, simplifications (e.g., remove `crystals-`), duplicate-dash trim.
+- **Allowed Values:**
+  - Families: `lattice | code | hash`
+  - Levels: `{1,3,5}` (+ alias buckets)
+- **Change Management:** PRs must include:
+  1) Added/updated YAML entries, 2) unit tests for new aliases, 3) updated docs tables.
+
+**Monitoring (planned WP-03).**
+- CI job fails on unmapped tokens discovered in sample ETL runs.
+- Daily ETL emits an “alias-resolution report” listing new/unknown tokens with source provenance.

@@ -10,9 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - .gitignore with Python, macOS, and project rules
 - GIT_HELP.md (ignored)
 - Added data governance guardrails, JSON Schema for records, validator stubs, and toy example (WP-01).
+- (planned) Add alias-resolution CI test and unmapped-token reporting (WP-03).
+
 
 ### Changed
 - None yet
 
 ### Fixed
 - None yet
+
+## [WP-02] — Canonical Naming & Alias Map (2025-09-28)
+### Added
+- `src/validate/canonical_names.yaml` with normalization rules, family/level alias buckets, and ≥50 algorithm/param aliases.
+- `docs/dataset-limitations.md` aliasing section and coverage table.
+
+### Changed
+- Documentation: clarified canonical algorithm names (ML-KEM/ML-DSA/SLH-DSA), family buckets, and level mapping {1,3,5}.
+
+### Risks/Mitigations
+- Alias drift across upstream repos — logged in `docs/risk-register.md` with CI tests planned.

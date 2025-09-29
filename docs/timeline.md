@@ -1,5 +1,6 @@
 # Timeline
 - 2025-09-28 — WP-01 completed: schema + governance + toy example validated.
+- 2025-09-28 — **WP-02 COMPLETE**: Canonical naming + alias map shipped. Docs updated. Next: add CI alias coverage tests (WP-03).
 
 
 
